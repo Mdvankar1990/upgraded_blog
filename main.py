@@ -12,7 +12,7 @@ from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms import StringField, FileField, SubmitField, EmailField, PasswordField, Label
 from wtforms.validators import DataRequired, Email, Length
-
+import email_validator
 blog_image = "../static/img/post-sample-image.jpg"
 my_email = os.environ['my_mail']
 pwd = os.environ['pwd']
