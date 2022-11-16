@@ -14,8 +14,9 @@ from wtforms import StringField, FileField, SubmitField, EmailField, PasswordFie
 from wtforms.validators import DataRequired, Email, Length
 import email_validator
 blog_image = "../static/img/post-sample-image.jpg"
-my_email="mdvankar1990@gmail.com"
-pwd="lloaayzlbugxponj"
+my_email = os.environ['my_mail']
+pwd = os.environ['pwd']
+
 
 def create_app():
     app_in = Flask(__name__)
