@@ -104,7 +104,7 @@ def admin_only(function):
     @wraps(function)
     def wrapper():
         if not current_user.is_anonymous:
-            if current_user.email == "mdvankar1990@gmail.com":
+            if current_user.email == my_email:
                 return function()
             return "not allowed"
         return "no such user."
