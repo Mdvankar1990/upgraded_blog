@@ -48,7 +48,7 @@
                     <!-- To make this form functional, sign up at-->
                     <!-- https://startbootstrap.com/solution/contact-forms-->
                     <!-- to get an API token!-->
-                    <form id="contactForm" action="{{url_for('receive_data')}}" method="POST">
+                    <form id="contactForm" action="{{url_for('contact')}}" method="POST">
                         <div class="form-floating">
                             <input class="form-control" name="name" id="name" type="text"
                                    placeholder="Enter your name..." data-sb-validations="required"/>
@@ -83,18 +83,21 @@
                         <!---->
                         <!-- This is what your users will see when the form-->
                         <!-- has successfully submitted-->
-                        <div class="d-none" id="submitSuccessMessage">
-                            <div class="text-center mb-3">
-                                <div class="fw-bolder">Form submission successful!</div>
+
+                            {% if command=="success"%}
+                            <div class="text-center text-success fw-bolder mb-3">
+                             Form submission successful!
                             </div>
-                        </div>
+                            {% elif command=="error"%}
+
                         <!-- Submit error message-->
                         <!---->
                         <!-- This is what your users will see when there is-->
                         <!-- an error submitting the form-->
-                        <div class="d-none" id="submitErrorMessage">
-                            <div class="text-center text-danger mb-3">Error sending message!</div>
-                        </div>
+
+                            <div class="text-center fw-bolder text-danger mb-3">Error sending message!</div>
+                            {%endif%}
+
                         <!-- Submit Button-->
                         <button class="btn btn-primary text-uppercase enabled" id="submitButton" type="submit">Send
                         </button>
