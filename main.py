@@ -25,12 +25,11 @@ def create_app():
 
 
 today_date = time.strftime("%B, %d %Y")
-db_url = "sqlite:///blogs.db"
 UPLOAD_FOLDER = r'static/upload_images'
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg'}
 app = create_app()
 ckeditor = CKEditor(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URI']
 app.config['SECRET_KEY'] = os.urandom(32)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = SQLAlchemy(app)
