@@ -12,6 +12,8 @@ from flask_wtf import FlaskForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms import StringField, FileField, SubmitField, EmailField, PasswordField, Label
 from wtforms.validators import DataRequired, Email, Length
+import psycopg2
+
 import email_validator
 blog_image = "../static/img/post-sample-image.jpg"
 my_email = os.environ['my_mail']
@@ -23,13 +25,18 @@ def create_app():
     Bootstrap(app_in)
     return app_in
 
+uri = os.getenv("DATABASE_URL")
+# or other relevant config var
+
 
 today_date = time.strftime("%B, %d %Y")
 UPLOAD_FOLDER = r'static/upload_images'
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg'}
 app = create_app()
 ckeditor = CKEditor(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SECRET_KEY'] = os.urandom(32)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = SQLAlchemy(app)
