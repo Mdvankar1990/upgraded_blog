@@ -14,9 +14,8 @@ from wtforms import StringField, FileField, SubmitField, EmailField, PasswordFie
 from wtforms.validators import DataRequired, Email, Length
 
 blog_image = "../static/img/post-sample-image.jpg"
-my_email = "whiskeyjackmalazan41@gmail.com"
-pwd = 'jjntkpiyfbeurcjh'
-receiver = "mdvankar1990@gmail.com"
+my_email = os.environ['my_mail']
+pwd = os.environ['pwd']
 
 
 def create_app():
@@ -204,6 +203,8 @@ def contact():
 
 @app.route('/formentry', methods=['POST'])
 def receive_data():
+    print(my_email)
+    print(pwd)
     today_time = time.strftime("%I:%M:%S")
     if request.method == "POST":
         connection = smtplib.SMTP("SMTP.GMAIL.COM", port=587)
@@ -215,11 +216,12 @@ def receive_data():
         message = request.form['message']
         message_to_send = f"Subject:Customer details\n\nCustomer name: {name}-\nEmail:{email}\nPhone:{phone}\n" \
                           f"message:{message}"
-        connection.sendmail(from_addr=my_email, to_addrs=receiver, msg=message_to_send)
+        connection.sendmail(from_addr=my_email, to_addrs=my_email, msg=message_to_send)
         connection.close()
-        return f"<h1>Details send</h1>"
-    else:
-        return "<h1>Error</h1>"
+        flash(message="We received your info.Get back to you soon.")
+        return redirect(url_for("contact"))
+
+    return redirect(url_for("contact"))
 
 
 @app.route("/delete/<int:id>", methods=['GET'])
