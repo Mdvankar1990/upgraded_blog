@@ -225,6 +225,14 @@ def delete(id):
         db.session.commit()
     return redirect(url_for('home'))
 
+@app.route("/delete/comment/<int:id>", methods=['GET'])
+@login_required
+def delete_comment(id):
+    comment_to_delete = Comment.query.get(id)
+    if current_user.id == comment_to_delete.author:
+        db.session.delete(comment_to_delete)
+        db.session.commit()
+    return redirect(url_for('get_blog',id=comment_to_delete.post))
 
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -291,4 +299,4 @@ def admin_page():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True)

@@ -11267,6 +11267,7 @@ color:blue;
     padding-top: 10px;
     color: #FF731D;
     background-color:#FFF7E9;
+    margin:0 15% 0;
 
 }
 .comment h4,.comment span,.darker h4,.darker span{
@@ -11277,7 +11278,7 @@ color:blue;
     color: #5F9DF7;
 }
 .comment-tag{
-margin:5% 0% 0%;
+padding:5% 10% 0%;
 }
 
 
