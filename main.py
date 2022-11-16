@@ -195,16 +195,8 @@ def about():
     return render_template("about.html", time=today_time, date=today_date)
 
 
-@app.route('/contact')
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    today_time = time.strftime("%I:%M:%S")
-    return render_template("contact.html", time=today_time, date=today_date)
-
-
-@app.route('/formentry', methods=['POST'])
-def receive_data():
-    print(my_email)
-    print(pwd)
     today_time = time.strftime("%I:%M:%S")
     if request.method == "POST":
         connection = smtplib.SMTP("SMTP.GMAIL.COM", port=587)
@@ -216,12 +208,12 @@ def receive_data():
         message = request.form['message']
         message_to_send = f"Subject:Customer details\n\nCustomer name: {name}-\nEmail:{email}\nPhone:{phone}\n" \
                           f"message:{message}"
-        connection.sendmail(from_addr=my_email, to_addrs=my_email, msg=message_to_send)
+        mail_s = connection.sendmail(from_addr=my_email, to_addrs=my_email, msg=message_to_send)
         connection.close()
-        flash(message="We received your info.Get back to you soon.")
-        return redirect(url_for("contact"))
-
-    return redirect(url_for("contact"))
+        if len(mail_s)==0:
+            return render_template("contact.html", command="success", time=today_time, date=today_date)
+        return render_template("contact.html", command="error", time=today_time, date=today_date)
+    return render_template("contact.html", command=" ", time=today_time, date=today_date)
 
 
 @app.route("/delete/<int:id>", methods=['GET'])
